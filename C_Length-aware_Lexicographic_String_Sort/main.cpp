@@ -1,38 +1,57 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
 using namespace std;
 
-void insertion_sort(vector<string> &v, int low, int high)
+static vector<string> s;
+static vector<int> a;
+static vector<int> tmp;
+static int n;
+
+static inline bool cmp(int a, int b)
+{
+    int la = s[a].size();
+    int lb = s[b].size();
+
+    return (la < lb) || (la == lb && s[a] < s[b]);
+}
+
+static inline void insertion_sort(int low, int high)
 {
     for (int i = low + 1; i <= high; i++)
     {
-        string key = v[i];
+        int key = a[i];
         int j = i - 1;
-        while (j >= low && (v[j].length() > key.length() || (v[j].length() == key.length() && v[j] > key)))
+
+        while (j >= low && cmp(key, a[j]))
         {
-            v[j + 1] = v[j];
+            a[j + 1] = a[j];
             j--;
         }
-        v[j + 1] = key;
+
+        a[j + 1] = key;
     }
 }
 
-void mergeSort(vector<string> &a, vector<string> &tmp, int left, int right)
+static void mergeSort(int left, int right)
 {
     if (left >= right)
         return;
 
-    if (right - left < 15)
+    if (right - left < 32)
     {
-        insertion_sort(a, left, right);
+        insertion_sort(left, right);
         return;
     }
 
-    int mid = left + (right - left) / 2;
+    int mid = left + ((right - left) >> 1);
 
-    mergeSort(a, tmp, left, mid);
-    mergeSort(a, tmp, mid + 1, right);
+    mergeSort(left, mid);
+    mergeSort(mid + 1, right);
+
+    if (!cmp(a[mid + 1], a[mid]))
+        return;
 
     int i = left;
     int j = mid + 1;
@@ -40,31 +59,20 @@ void mergeSort(vector<string> &a, vector<string> &tmp, int left, int right)
 
     while (i <= mid && j <= right)
     {
-        if (a[i].size() < a[j].size() ||
-            (a[i].size() == a[j].size() && a[i] <= a[j]))
-        {
+        if (!cmp(a[j], a[i]))
             tmp[k++] = a[i++];
-        }
         else
-        {
             tmp[k++] = a[j++];
-        }
     }
 
     while (i <= mid)
-    {
         tmp[k++] = a[i++];
-    }
 
     while (j <= right)
-    {
         tmp[k++] = a[j++];
-    }
 
     for (int h = left; h <= right; h++)
-    {
         a[h] = tmp[h];
-    }
 }
 
 int main()
@@ -72,25 +80,33 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
     cin >> n;
 
-    vector<string> a(n);
-    vector<string> tmp(n);
+    s.resize(n);
+    a.resize(n);
+    tmp.resize(n);
 
     for (int i = 0; i < n; i++)
     {
-        cin >> a[i];
+        cin >> s[i];
+        a[i] = i;
     }
 
-    mergeSort(a, tmp, 0, n - 1);
+    mergeSort(0, n - 1);
 
-    cout << n << '\n';
+    string out;
+    out.reserve(n * 110);
+
+    out += to_string(n);
+    out += '\n';
 
     for (int i = 0; i < n; i++)
     {
-        cout << a[i] << '\n';
+        out += s[a[i]];
+        out += '\n';
     }
+
+    cout << out;
 
     return 0;
 }
