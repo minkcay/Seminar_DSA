@@ -5,7 +5,7 @@
 * **Môn học:** Cấu trúc Dữ liệu và Giải thuật (Học kỳ 2, 2025-2026)
 * **Thành viên:**
   * Bùi Minh Trí - 25120451 
-  * Bùi Hữu Phúc - 
+  * Bùi Hữu Phúc - 25120417
   * Phongktv - 
 
 ---
