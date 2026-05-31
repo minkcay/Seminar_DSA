@@ -1,5 +1,5 @@
 # Seminar_DSA
-## Báo Cáo Đồ Án: Phân Tích & Tối Ưu Hóa Các Thuật Toán Sắp Xếp
+## Báo Cáo Đồ Án
 
 ### I. Thông Tin Chung
 * **Môn học:** Cấu trúc Dữ liệu và Giải thuật (Học kỳ 2, 2025-2026)
