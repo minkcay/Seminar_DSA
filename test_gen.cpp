@@ -7,7 +7,82 @@
 
 using namespace std;
 
+// -------------------------------------------------------------------------
+// A. Integer Sort
 
+const int N = 100000;
+
+int Rand(int l, int r)
+{
+    static mt19937 gen(time(0));
+
+    uniform_int_distribution<int> dis(l, r);
+
+    return dis(gen);
+}
+
+// 1. Random Uniform
+void generateInt_Test1(ofstream &fout)
+{
+    fout << N << "\n";
+
+    for (int i = 0; i < N; i++)
+    {
+        fout << Rand(-1000000000, 1000000000)
+             << "\n";
+    }
+}
+
+// 2. Sorted
+void generateInt_Test2(ofstream &fout)
+{
+    fout << N << "\n";
+
+    for (int i = 1; i <= N; i++)
+    {
+        fout << i << "\n";
+    }
+}
+
+// 3. Reverse Sorted
+void generateInt_Test3(ofstream &fout)
+{
+    fout << N << "\n";
+
+    for (int i = N; i >= 1; i--)
+    {
+        fout << i << "\n";
+    }
+}
+
+// 4. Many Duplicates
+void generateInt_Test4(ofstream &fout)
+{
+    fout << N << "\n";
+
+    for (int i = 0; i < N; i++)
+    {
+        fout << Rand(1, 10)
+             << "\n";
+    }
+}
+
+// 5. Clustered Values
+void generateInt_Test5(ofstream &fout)
+{
+    fout << N << "\n";
+
+    int base = Rand(-100000, 100000);
+
+    for (int i = 0; i < N; i++)
+    {
+        fout << base + Rand(-50, 50)
+             << "\n";
+    }
+}
+
+// -------------------------------------------------------------------------
+// B. Lexicographic String Sort
 
 // -------------------------------------------------------------------------
 // C. Length-aware Lexicographic String Sort
@@ -150,27 +225,27 @@ int main(int argc, char *argv[])
 
     if (dataType == "int")
     {
-        // switch (choice)
-        // {
-        // case 1:
-        //     generateInt_Test1(fout);
-        //     break;
-        // case 2:
-        //     generateInt_Test2(fout);
-        //     break;
-        // case 3:
-        //     generateInt_Test3(fout);
-        //     break;
-        // case 4:
-        //     generateInt_Test4(fout);
-        //     break;
-        // case 5:
-        //     generateInt_Test5(fout);
-        //     break;
-        // default:
-        //     cout << "Test case cho 'int' khong hop le (chi nhan 1-5).\n";
-        //     return 1;
-        // }
+        switch (choice)
+        {
+        case 1:
+            generateInt_Test1(fout);
+            break;
+        case 2:
+            generateInt_Test2(fout);
+            break;
+        case 3:
+            generateInt_Test3(fout);
+            break;
+        case 4:
+            generateInt_Test4(fout);
+            break;
+        case 5:
+            generateInt_Test5(fout);
+            break;
+        default:
+            cout << "Test case cho 'int' khong hop le (chi nhan 1-5).\n";
+            return 1;
+        }
     }
     else if (dataType == "strlexi")
     {
