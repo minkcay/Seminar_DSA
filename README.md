@@ -15,27 +15,57 @@
 *(Phần này dành cho thành viên phụ trách Bài A điền vào)*
 
 #### 1. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 1)
-* **Thuật toán tốt nhất:** [Điền tên thuật toán]
+
+* **Thuật toán tốt nhất:** LSD Radix Sort (Least Significant Digit)
+
 * **Các phương thức tối ưu hóa liên quan:**
-  * [Điền chi tiết phương pháp tối ưu 1]
-  * [Điền chi tiết phương pháp tối ưu 2]
+  * Sử dụng Radix Sort cơ số 256 để xử lý trực tiếp theo từng byte của số nguyên 32-bit, giúp giảm số pass xuống còn 4 lượt duyệt.
+  * Sử dụng phép biến đổi bit dấu `x ^ 0x80000000` để đưa miền số nguyên signed sang unsigned nhằm xử lý đúng thứ tự giữa số âm và số dương.
+  * Sử dụng `ios::sync_with_stdio(false)` và `cin.tie(nullptr)` để tối ưu thao tác nhập xuất.
+
 * **Lý giải nguyên nhân hiệu quả:**
-  * [Giải thích tại sao thuật toán và các tối ưu trên lại đạt hiệu suất cao nhất ở lần 1]
+  * Trong khi Quick Sort, Merge Sort hay Heap Sort bị giới hạn bởi độ phức tạp `O(NlogN)`, LSD Radix Sort hoạt động theo cơ chế phân phối bucket nên có độ phức tạp gần tuyến tính `O(kN)` với `k = 4` cho số nguyên 32-bit. Thuật toán gần như không bị ảnh hưởng bởi thứ tự dữ liệu đầu vào, đồng thời phép đổi bit dấu cho phép xử lý trực tiếp cả số âm và số dương mà không cần thêm bước sort phụ.
+
+---
 
 #### 2. Phân Tích Bộ Sinh Test (test_gen.cpp)
-* **Test 1:** [Tên Test]
-  * *Mục tiêu:* [Thuật toán bị nhắm đến]
-  * *Lý do:* [Cách thức test case làm suy biến thời gian chạy]
-* **Test 2:** [Tên Test]
-  * *Mục tiêu:* [Thuật toán bị nhắm đến]
-  * *Lý do:* [Cách thức test case làm suy biến thời gian chạy]
-*(Tiếp tục với Test 3, 4, 5...)*
+
+* **Test 1: Random Uniform**
+  * *Mục tiêu:* Tất cả các thuật toán sort tổng quát.
+  * *Lý do:* Dữ liệu được sinh ngẫu nhiên trên khoảng giá trị rất lớn nhằm đánh giá hiệu năng trung bình của thuật toán. Những cài đặt tối ưu kém hoặc quản lý bộ nhớ chưa tốt sẽ có thời gian chạy cao.
+
+* **Test 2: Sorted**
+  * *Mục tiêu:* Quick Sort chọn pivot đầu/cuối, Hybrid Sort dùng Insertion Sort.
+  * *Lý do:* Dữ liệu đã được sắp xếp tăng dần. Quick Sort với chiến lược chọn pivot đơn giản sẽ tạo phân hoạch cực lệch, làm độ phức tạp tăng từ `O(NlogN)` xuống gần `O(N²)`.
+
+* **Test 3: Reverse Sorted**
+  * *Mục tiêu:* Insertion Sort, Quick Sort với pivot cuối.
+  * *Lý do:* Dữ liệu đảo ngược hoàn toàn. Insertion Sort phải thực hiện số lần dịch chuyển tối đa ở mọi vòng lặp, trong khi Quick Sort chọn pivot không phù hợp sẽ tiếp tục rơi vào trường hợp phân hoạch mất cân bằng và tiệm cận `O(N²)`.
+
+* **Test 4: Many Duplicates**
+  * *Mục tiêu:* Quick Sort với phân hoạch 2 chiều (2-way Partitioning).
+  * *Lý do:* Chỉ tồn tại rất ít giá trị khác nhau nhưng lặp lại với tần suất lớn. Các cài đặt Quick Sort không xử lý tốt phần tử trùng lặp có thể liên tục tạo ra phân hoạch mất cân bằng, làm tăng số lần đệ quy.
+
+* **Test 5: Clustered Values**
+  * *Mục tiêu:* Comparison Sort và các thuật toán tối ưu chưa tốt.
+  * *Lý do:* Dữ liệu được sinh quanh một giá trị trung tâm với sai lệch nhỏ, tạo mật độ phần tử cao trong cùng một vùng giá trị. Điều này giúp kiểm tra khả năng xử lý dữ liệu phân bố cụm của các thuật toán sort.
+
+---
 
 #### 3. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 2)
-* **Thuật toán tốt nhất:** [Điền tên thuật toán]
+
+* **Thuật toán tốt nhất:** American Flag Sort (MSD Radix Sort in-place)
+
 * **Các phương thức tiếp tục tối ưu hóa:**
-  * [Làm thế nào để tiếp tục cải tiến so với lần 1?]
-  * [Các kỹ thuật kết hợp nếu có]
+  * Chuyển từ LSD Radix Sort sang American Flag Sort để giảm số lần copy dữ liệu và thực hiện phân bucket trực tiếp trên mảng gốc.
+  * Kết hợp Insertion Sort cho các bucket nhỏ nhằm giảm chi phí đệ quy.
+  * Sử dụng low-level buffered I/O bằng `streambuf`, `sgetn()` và `sputn()` để giảm overhead của thao tác nhập xuất.
+  * Áp dụng `#pragma GCC optimize("Ofast,unroll-loops")` cùng loop unrolling ở bước counting.
+
+* **Lý giải nguyên nhân hiệu quả:**
+  * Mặc dù LSD Radix Sort ở lần chạy 1 đã đạt độ phức tạp gần tuyến tính, điểm yếu chính vẫn nằm ở việc phải dùng mảng phụ và copy toàn bộ dữ liệu sau mỗi pass. American Flag Sort cải thiện điều này bằng cách thực hiện hoán vị trực tiếp trên mảng nguồn (in-place), giúp giảm đáng kể chi phí bộ nhớ và thao tác copy.
+
+  * Việc chuyển sang chiến lược MSD cho phép chia bucket từ byte cao nhất trước, giúp các nhóm dữ liệu nhỏ được xử lý sớm hơn. Khi bucket giảm xuống dưới ngưỡng nhỏ, thuật toán chuyển sang Insertion Sort để tận dụng cache locality và giảm overhead đệ quy. Kết hợp với fast I/O và compiler optimization, phiên bản lần 2 đạt thời gian chạy tốt hơn so với lần chạy đầu tiên.
 
 ---
 
