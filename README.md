@@ -34,7 +34,7 @@
 
 * **Test 2: Sorted**
   * *Mục tiêu:* Quick Sort chọn pivot đầu/cuối, Hybrid Sort dùng Insertion Sort.
-  * *Lý do:* Dữ liệu đã được sắp xếp tăng dần. Quick Sort với chiến lược chọn pivot đơn giản sẽ tạo phân hoạch cực lệch, làm độ phức tạp tăng từ `O(NlogN)` xuống gần `O(N²)`.
+  * *Lý do:* Dữ liệu đã được sắp xếp tăng dần. Quick Sort với chiến lược chọn pivot đơn giản sẽ tạo phân hoạch cực lệch, làm độ phức tạp tăng từ `O(NlogN)` lên gần `O(N²)`.
 
 * **Test 3: Reverse Sorted**
   * *Mục tiêu:* Insertion Sort, Quick Sort với pivot cuối.
