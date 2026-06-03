@@ -6,7 +6,7 @@
 * **Thành viên:**
   * Bùi Minh Trí - 25120451 
   * Bùi Hữu Phúc - 25120417
-  * Phongktv - 
+  * Lê Tuấn Phong - 25120412
 
 ---
 
@@ -23,8 +23,6 @@
 
 * **Lý giải nguyên nhân hiệu quả:**
   * Trong khi Quick Sort, Merge Sort hay Heap Sort bị giới hạn bởi độ phức tạp `O(NlogN)`, LSD Radix Sort hoạt động theo cơ chế phân phối bucket nên có độ phức tạp gần tuyến tính `O(kN)` với `k = 4` cho số nguyên 32-bit. Thuật toán gần như không bị ảnh hưởng bởi thứ tự dữ liệu đầu vào, đồng thời phép đổi bit dấu cho phép xử lý trực tiếp cả số âm và số dương mà không cần thêm bước sort phụ.
-
----
 
 #### 2. Phân Tích Bộ Sinh Test (test_gen.cpp)
 
@@ -48,8 +46,6 @@
   * *Mục tiêu:* Comparison Sort và các thuật toán tối ưu chưa tốt.
   * *Lý do:* Dữ liệu được sinh quanh một giá trị trung tâm với sai lệch nhỏ, tạo mật độ phần tử cao trong cùng một vùng giá trị. Điều này giúp kiểm tra khả năng xử lý dữ liệu phân bố cụm của các thuật toán sort.
 
----
-
 #### 3. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 2)
 
 * **Thuật toán tốt nhất:** American Flag Sort (MSD Radix Sort in-place)
@@ -70,23 +66,38 @@
 ### III. Bài B: [Lexicographic Sort]
 
 #### 1. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 1)
-* **Thuật toán tốt nhất:** [Điền tên thuật toán]
+* **Thuật toán tốt nhất:** MSD Radix Sort (Most Significant Digit Radix Sort) kết hợp Insertion Sort
 * **Các phương thức tối ưu hóa liên quan:**
-  * [Điền chi tiết phương pháp tối ưu 1]
-  * [Điền chi tiết phương pháp tối ưu 2]
+  * Sử dụng Insertion Sort cho các đoạn có kích thước nhỏ (≤ 32 phần tử) để giảm chi phí đệ quy và phân hoạch
+  * Tối ưu trường hợp các chuỗi có cùng ký tự tại vị trí đang xét, giúp bỏ qua bước phân hoạch và chuyển sang ký tự tiếp theo
 * **Lý giải nguyên nhân hiệu quả:**
-  * [Giải thích tại sao thuật toán và các tối ưu trên lại đạt hiệu suất cao nhất ở lần 1]
+  * MSD Radix Sort giảm số lần so sánh toàn chuỗi bằng cách xử lý theo từng ký tự
+  * Insertion Sort hiệu quả trên các đoạn nhỏ giúp giảm overhead đệ quy
+  * Tối ưu tiền tố chung giúp giảm số lần phân hoạch không cần thiết
 
 #### 2. Phân Tích Bộ Sinh Test (test_gen.cpp)
-* **Test 1:** [Tên Test]
-  * *Mục tiêu:* [Thuật toán bị nhắm đến]
-  * *Lý do:* [Cách thức test case làm suy biến thời gian chạy]
-*(Tiếp tục với các test tiếp theo)*
+* **Test 1: Random Strings**
+  * *Mục tiêu:* Tất cả thuật toán sắp xếp chuỗi
+  * *Lý do:* Chuỗi ngẫu nhiên với độ dài 10–100 và ký tự a–z, đánh giá hiệu năng trung bình
+* **Test 2: Common Prefix**
+  * *Mục tiêu:* MSD Radix Sort
+  * *Lý do:* Chuỗi có tiền tố rất dài, chỉ khác ở ký tự cuối, làm tăng độ sâu đệ quy
+* **Test 3: Identical Strings**
+  * *Mục tiêu:* MSD Radix Sort
+  * *Lý do:* Tất cả chuỗi giống nhau, kiểm tra khả năng xử lý trường hợp trùng lặp
+* **Test 4: Many Duplicates**
+  * *Mục tiêu:* Thuật toán xử lý dữ liệu trùng lặp
+  * *Lý do:* Ít giá trị khác nhau nhưng lặp lại nhiều, gây mất cân bằng bucket
+* **Test 5: Variable Length Strings**
+  * *Mục tiêu:* MSD Radix Sort và thuật toán so sánh chuỗi
+  * *Lý do:* Chuỗi có độ dài khác nhau (10–100), bao gồm trường hợp một chuỗi là tiền tố của chuỗi khác
 
 #### 3. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 2)
-* **Thuật toán tốt nhất:** [Điền tên thuật toán]
+* **Thuật toán tốt nhất:** MSD Radix Sort sử dụng bảng chữ cái giới hạn (a–z) kết hợp Insertion Sort
 * **Các phương thức tiếp tục tối ưu hóa:**
-  * [Làm thế nào để tiếp tục cải tiến so với lần 1?]
+  * Thu hẹp bảng đếm từ 256 ký tự xuống 27 ký tự (a–z + ký tự kết thúc chuỗi)
+  * Sử dụng memory pool để lưu chuỗi liên tiếp trong bộ nhớ, giảm cache miss
+  * Ánh xạ ký tự trực tiếp thay vì dùng ASCII đầy đủ để giảm overhead xử lý
 
 ---
 
