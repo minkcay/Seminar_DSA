@@ -103,7 +103,7 @@ void generateStrLexi_Test1(ofstream &fout)
 
     for (int i = 0; i < Nc; i++)
     {
-        fout << randomString(Rand(1, LEN))
+        fout << randomString(Rand(10, LEN))
              << "\n";
     }
 }
@@ -167,7 +167,7 @@ void generateStrLexi_Test5(ofstream &fout)
 
     for (int i = 0; i < Nc; i++)
     {
-        fout << randomString(Rand(1, LEN))
+        fout << randomString(Rand(10, LEN))
              << "\n";
     }
 }
