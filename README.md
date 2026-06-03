@@ -105,7 +105,7 @@
 
 #### 1. Đánh Giá Thuật Toán Cài Đặt (Lần Chạy 1)
 
-* **Thuật toán tốt nhất: MSD Radix Sort + Counting Sort (Most Significant Digit): **
+* **Thuật toán tốt nhất: MSD Radix Sort + Counting Sort (Most Significant Digit):**
   Sort bằng Radix Sort trước, sau khi sort xong bằng Radix Sort thì do tính stable của Counting Sort nên sort lại 1 lần nữa bằng Counting Sort sẽ cho kết quả đủng.
 
 * **Các phương thức tối ưu hóa liên quan:**
