@@ -84,6 +84,94 @@ void generateInt_Test5(ofstream &fout)
 // -------------------------------------------------------------------------
 // B. Lexicographic String Sort
 
+string randomString(int len)
+{
+    string s;
+
+    for (int i = 0; i < len; i++)
+    {
+        s += char('a' + Rand(0, 25));
+    }
+
+    return s;
+}
+
+// 1. Random Strings
+void generateStrLexi_Test1(ofstream &fout)
+{
+    fout << Nc << "\n";
+
+    for (int i = 0; i < Nc; i++)
+    {
+        fout << randomString(Rand(1, LEN))
+             << "\n";
+    }
+}
+
+// 2. Common Prefix
+void generateStrLexi_Test2(ofstream &fout)
+{
+    fout << Nc << "\n";
+
+    string prefix(95, 'a');
+
+    for (int i = 0; i < Nc; i++)
+    {
+        string s = prefix;
+
+        for (int j = 0; j < 5; j++)
+        {
+            s += char('a' + Rand(0, 25));
+        }
+
+        fout << s << "\n";
+    }
+}
+
+// 3. Identical Strings
+void generateStrLexi_Test3(ofstream &fout)
+{
+    fout << Nc << "\n";
+
+    string s(100, 'm');
+
+    for (int i = 0; i < Nc; i++)
+    {
+        fout << s << "\n";
+    }
+}
+
+// 4. Many Duplicates
+void generateStrLexi_Test4(ofstream &fout)
+{
+    fout << Nc << "\n";
+
+    vector<string> base;
+
+    for (int i = 0; i < 10; i++)
+    {
+        base.push_back(randomString(20));
+    }
+
+    for (int i = 0; i < Nc; i++)
+    {
+        fout << base[Rand(0, 9)]
+             << "\n";
+    }
+}
+
+// 5. Variable Length Strings
+void generateStrLexi_Test5(ofstream &fout)
+{
+    fout << Nc << "\n";
+
+    for (int i = 0; i < Nc; i++)
+    {
+        fout << randomString(Rand(1, LEN))
+             << "\n";
+    }
+}
+
 // -------------------------------------------------------------------------
 // C. Length-aware Lexicographic String Sort
 
@@ -249,27 +337,27 @@ int main(int argc, char *argv[])
     }
     else if (dataType == "strlexi")
     {
-        // switch (choice)
-        // {
-        // case 1:
-        //     generateStrLexi_Test1(fout);
-        //     break;
-        // case 2:
-        //     generateStrLexi_Test2(fout);
-        //     break;
-        // case 3:
-        //     generateStrLexi_Test3(fout);
-        //     break;
-        // case 4:
-        //     generateStrLexi_Test4(fout);
-        //     break;
-        // case 5:
-        //     generateStrLexi_Test5(fout);
-        //     break;
-        // default:
-        //     cout << "Test case cho 'strlexi' khong hop le (chi nhan 1-5).\n";
-        //     return 1;
-        // }
+        switch (choice)
+        {
+        case 1:
+            generateStrLexi_Test1(fout);
+            break;
+        case 2:
+            generateStrLexi_Test2(fout);
+            break;
+        case 3:
+            generateStrLexi_Test3(fout);
+            break;
+        case 4:
+            generateStrLexi_Test4(fout);
+            break;
+        case 5:
+            generateStrLexi_Test5(fout);
+            break;
+        default:
+            cout << "Test case cho 'strlexi' khong hop le (chi nhan 1-5).\n";
+            return 1;
+        }
     }
     else if (dataType == "strlenlexi")
     {
